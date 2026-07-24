@@ -23,6 +23,27 @@ export default function Home() {
                 Find the best high school for your needs.
             </p>
 
+            <Link
+                href="/highschools"
+                className="group mt-10 inline-flex items-center gap-2 rounded-full bg-ink px-8 py-3.5 text-base font-semibold text-white shadow-lg transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:bg-gold-deep active:translate-y-0"
+            >
+                Press here to get started
+                <svg
+                    className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M4 10h12m0 0l-5-5m5 5l-5 5"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            </Link>
+
             <p className="mt-16 text-sm text-ink-soft">
                 School data provided by{" "}
                 <Link

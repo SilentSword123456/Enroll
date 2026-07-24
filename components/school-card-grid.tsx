@@ -1,29 +1,14 @@
 "use client";
 
+import type { KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { School } from "@/app/generated/prisma/client";
-
-function addressToMapsUrl(address: string) {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-}
-
-function GlobeIcon() {
-    return (
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z" />
-        </svg>
-    );
-}
-
-function PinIcon() {
-    return (
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z" />
-            <circle cx="12" cy="10" r="2.5" />
-        </svg>
-    );
-}
+import { addressToMapsUrl } from "@/lib/maps";
+import { GlobeIcon, PinIcon } from "@/components/icons";
+import { Panel } from "@/components/ui/panel";
+import { SealBadge } from "@/components/ui/seal-badge";
+import { ChipLink } from "@/components/ui/chip-link";
+import { Eyebrow } from "@/components/ui/eyebrow";
 
 function SchoolPill({
                         school,
@@ -37,23 +22,19 @@ function SchoolPill({
     const initial = school.name.trim().charAt(0).toUpperCase();
 
     return (
-        <div
+        <Panel
+            size="lg"
+            interactive
+            className="group p-6 pt-8"
             role="link"
             tabIndex={0}
             onClick={onOpen}
-            onKeyDown={(e) => {
+            onKeyDown={(e: KeyboardEvent) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     onOpen();
                 }
             }}
-            className="group relative cursor-pointer rounded-[2rem] bg-white p-6 pt-8
-        shadow-[0_1px_2px_rgba(19,27,46,0.06),0_8px_24px_rgba(19,27,46,0.08)]
-        ring-1 ring-ink/[0.06]
-        transition-all duration-300 ease-out
-        hover:-translate-y-1 hover:shadow-[0_2px_8px_rgba(19,27,46,0.10),0_20px_40px_rgba(184,134,46,0.18)]
-        hover:ring-gold/30
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
         >
             {/* hover gradient wash */}
             <div
@@ -63,59 +44,36 @@ function SchoolPill({
           transition-opacity duration-300 group-hover:opacity-100"
             />
 
-            {/* wax-seal monogram — highest elevation tier, floats above the card edge */}
-            <div
-                aria-hidden
-                className="absolute -top-4 left-6 flex h-9 w-9 items-center justify-center rounded-full
-          bg-[linear-gradient(150deg,var(--color-gold-soft),var(--color-gold)_55%,var(--color-gold-deep))]
-          text-[13px] font-semibold text-ink
-          shadow-[0_3px_8px_rgba(140,99,23,0.45)]
-          ring-2 ring-white
-          transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
-            >
-                {initial}
-            </div>
+            <SealBadge letter={initial} left="left-6" interactive />
 
-            <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-ink-soft">
-                Liceu &middot; {String(index + 1).padStart(2, "0")}
-            </p>
+            <Eyebrow>Liceu &middot; {String(index + 1).padStart(2, "0")}</Eyebrow>
 
             <h2 className="mt-2 font-serif text-[1.375rem] font-semibold leading-snug tracking-[-0.01em] text-ink">
                 {school.name}
             </h2>
 
-            {/* low elevation tier — flat, recessed, tinted */}
             <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-ink/[0.06] pt-4">
                 {school.website && (
-                    <a
+                    <ChipLink
                         href={school.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        icon={<GlobeIcon />}
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-ink/[0.04] px-3 py-1.5
-              text-xs font-medium text-ink
-              transition-colors duration-200 hover:bg-ink hover:text-white"
                     >
-                        <GlobeIcon />
                         Site
-                    </a>
+                    </ChipLink>
                 )}
                 {school.address && (
-                    <a
+                    <ChipLink
                         href={addressToMapsUrl(school.address)}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        variant="oxblood"
+                        icon={<PinIcon />}
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-oxblood/[0.06] px-3 py-1.5
-              text-xs font-medium text-oxblood
-              transition-colors duration-200 hover:bg-oxblood hover:text-white"
                     >
-                        <PinIcon />
                         <span className="max-w-[11rem] truncate">{school.address}</span>
-                    </a>
+                    </ChipLink>
                 )}
             </div>
-        </div>
+        </Panel>
     );
 }
 

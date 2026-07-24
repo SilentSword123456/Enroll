@@ -1,10 +1,12 @@
-import Link from "next/link";
 import { getSchoolBySlug } from "@/lib/db/schools";
 import { estimateChance, type AdmissionChance } from "@/lib/admissions/chances";
-
-function addressToMapsUrl(address: string) {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-}
+import { addressToMapsUrl } from "@/lib/maps";
+import { Panel } from "@/components/ui/panel";
+import { SealBadge } from "@/components/ui/seal-badge";
+import { ChipLink } from "@/components/ui/chip-link";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { BackLink } from "@/components/ui/back-link";
+import { Pill } from "@/components/ui/pill";
 
 const CHANCE_LABEL: Record<AdmissionChance, string> = {
     safe: "Safe",
@@ -38,6 +40,7 @@ export default async function SchoolPage({
 
     const studentGrade = 9.2; // placeholder — comes from user input later
 
+    // school.admissions is already ordered by [an desc, specializare asc]
     const bySpecializare = new Map<string, typeof school.admissions>();
     for (const a of school.admissions) {
         if (!bySpecializare.has(a.specializare)) bySpecializare.set(a.specializare, []);
@@ -47,21 +50,11 @@ export default async function SchoolPage({
     return (
         <div className="min-h-full bg-page pb-20">
             <div className="mx-auto max-w-3xl px-6 pt-10 md:px-10">
-                <Link
-                    href="/highschools"
-                    className="inline-flex items-center gap-1 text-xs font-medium uppercase tracking-[0.28em] text-ink-soft transition-colors hover:text-ink"
-                >
-                    ← Toate liceele
-                </Link>
+                <BackLink href="/highschools">← Toate liceele</BackLink>
 
                 {/* header card */}
-                <div className="relative mt-6 rounded-[2rem] bg-white p-7 pt-9 shadow-[0_1px_2px_rgba(19,27,46,0.06),0_8px_24px_rgba(19,27,46,0.08)] ring-1 ring-ink/[0.06]">
-                    <div
-                        aria-hidden
-                        className="absolute -top-4 left-7 flex h-9 w-9 items-center justify-center rounded-full bg-[linear-gradient(150deg,var(--color-gold-soft),var(--color-gold)_55%,var(--color-gold-deep))] text-[13px] font-semibold text-ink shadow-[0_3px_8px_rgba(140,99,23,0.45)] ring-2 ring-white"
-                    >
-                        {school.name.trim().charAt(0).toUpperCase()}
-                    </div>
+                <Panel size="lg" className="mt-6 p-7 pt-9">
+                    <SealBadge letter={school.name.trim().charAt(0).toUpperCase()} left="left-7" />
 
                     <h1 className="font-serif text-2xl font-semibold tracking-[-0.01em] text-ink md:text-3xl">
                         {school.name}
@@ -69,33 +62,19 @@ export default async function SchoolPage({
 
                     <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-ink/[0.06] pt-4">
                         {school.website && (
-                            <a
-                                href={school.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 rounded-full bg-ink/[0.04] px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-ink hover:text-white"
-                            >
-                                Site
-                            </a>
+                            <ChipLink href={school.website}>Site</ChipLink>
                         )}
                         {school.address && (
-                            <a
-                                href={addressToMapsUrl(school.address)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 rounded-full bg-oxblood/[0.06] px-3 py-1.5 text-xs font-medium text-oxblood transition-colors hover:bg-oxblood hover:text-white"
-                            >
+                            <ChipLink href={addressToMapsUrl(school.address)} variant="oxblood">
                                 <span className="max-w-[16rem] truncate">{school.address}</span>
-                            </a>
+                            </ChipLink>
                         )}
                     </div>
-                </div>
+                </Panel>
 
                 {/* admissions, grouped by specializare */}
                 <div className="mt-8 space-y-5">
-                    <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-ink-soft">
-                        Admitere &middot; medie estimată {studentGrade.toFixed(2)}
-                    </p>
+                    <Eyebrow>Admitere &middot; medie estimată {studentGrade.toFixed(2)}</Eyebrow>
 
                     {bySpecializare.size === 0 && (
                         <p className="rounded-[1.5rem] bg-white p-6 text-sm text-ink-soft ring-1 ring-ink/[0.06]">
@@ -104,10 +83,7 @@ export default async function SchoolPage({
                     )}
 
                     {[...bySpecializare.entries()].map(([specializare, admissions]) => (
-                        <div
-                            key={specializare}
-                            className="rounded-[1.5rem] bg-white p-6 shadow-[0_1px_2px_rgba(19,27,46,0.05),0_6px_16px_rgba(19,27,46,0.06)] ring-1 ring-ink/[0.06]"
-                        >
+                        <Panel size="md" key={specializare}>
                             <h2 className="font-serif text-lg font-semibold tracking-[-0.01em] text-ink">
                                 {specializare}
                             </h2>
@@ -129,16 +105,14 @@ export default async function SchoolPage({
                                                         : "medie necunoscută"}
                                                 </span>
                                             </div>
-                                            <span
-                                                className={`rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.08em] ${CHANCE_CLASS[chance]}`}
-                                            >
+                                            <Pill className={CHANCE_CLASS[chance]}>
                                                 {CHANCE_LABEL[chance]}
-                                            </span>
+                                            </Pill>
                                         </li>
                                     );
                                 })}
                             </ul>
-                        </div>
+                        </Panel>
                     ))}
                 </div>
             </div>
