@@ -17,10 +17,24 @@ function slugify(name: string) {
         .toLowerCase();
 }
 
-async function main() {
-    const buf = fs.readFileSync("admitere_specializari_1_in_.csv");
+function readCsv(path: string, delimiter: string): any[] {
+    const buf = fs.readFileSync(path);
     const raw = new TextDecoder("utf-8").decode(buf);
-    const rows: any[] = parse(raw, { columns: true, skip_empty_lines: true });
+    return parse(raw, { columns: true, skip_empty_lines: true, delimiter, bom: true });
+}
+
+async function main() {
+    const rows = readCsv("admitere_specializari_1_in_.csv", ",");
+
+    // schools_summary_in_.csv is semicolon-delimited: school;website;address
+    const summaryRows = readCsv("schools_summary_in_.csv", ";");
+    const contactByName = new Map<string, { website: string | null; address: string | null }>();
+    for (const r of summaryRows) {
+        contactByName.set(r.school, {
+            website: r.website?.trim() || null,
+            address: r.address?.trim() || null,
+        });
+    }
 
     const bySchool = new Map<string, typeof rows>();
     for (const row of rows) {
@@ -30,10 +44,21 @@ async function main() {
 
     for (const [rawName, schoolRows] of bySchool) {
         const name = rawName;
+        const contact = contactByName.get(name);
+
         const school = await prisma.school.upsert({
             where: { slug: slugify(name) },
-            update: { name },
-            create: { name, slug: slugify(name) },
+            update: {
+                name,
+                website: contact?.website ?? null,
+                address: contact?.address ?? null,
+            },
+            create: {
+                name,
+                slug: slugify(name),
+                website: contact?.website ?? null,
+                address: contact?.address ?? null,
+            },
         });
 
         for (const r of schoolRows) {

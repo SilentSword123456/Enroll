@@ -11,7 +11,8 @@ model School {
   id         Int          @id @default(autoincrement())
   name       String
   slug       String       @unique
-  url        String?
+  website    String?
+  address    String?
   admissions Admission[]
 }
 
