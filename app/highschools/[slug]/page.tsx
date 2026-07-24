@@ -38,7 +38,6 @@ export default async function SchoolPage({
 
     const studentGrade = 9.2; // placeholder — comes from user input later
 
-    // school.admissions is already ordered by [an desc, specializare asc]
     const bySpecializare = new Map<string, typeof school.admissions>();
     for (const a of school.admissions) {
         if (!bySpecializare.has(a.specializare)) bySpecializare.set(a.specializare, []);
