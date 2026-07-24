@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model School {
+  id         Int          @id @default(autoincrement())
+  name       String
+  slug       String       @unique
+  url        String?
+  admissions Admission[]
+}
+
+model Admission {
+  id           Int      @id @default(autoincrement())
+  schoolId     Int
+  school       School   @relation(fields: [schoolId], references: [id])
+  an           Int
+  specializare String
+  ultimaMedie  Decimal?
+  eleviAdmisi  Int?
+
+  @@unique([schoolId, an, specializare])
+}
