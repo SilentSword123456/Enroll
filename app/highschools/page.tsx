@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getAllSchools } from "@/lib/db/schools";
 import { SchoolCardGrid } from "@/components/school-card-grid";
 
