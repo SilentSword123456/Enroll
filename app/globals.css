@@ -3,6 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Enroll design tokens — academic navy / gold / oxblood */
+  --color-page: #eef1f6;
+  --color-ink: #131b2e;
+  --color-ink-soft: #5b6579;
+  --color-gold: #b8862e;
+  --color-gold-soft: #e4c77a;
+  --color-gold-deep: #8c6317;
+  --color-oxblood: #6e2a2a;
+  --color-safe: #3f6b4a;
 }
 
 @theme inline {
@@ -10,6 +20,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-page: var(--color-page);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --color-gold-deep: var(--color-gold-deep);
+  --color-oxblood: var(--color-oxblood);
+  --color-safe: var(--color-safe);
 }
 
 @media (prefers-color-scheme: dark) {
