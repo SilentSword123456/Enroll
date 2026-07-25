@@ -15,7 +15,11 @@ export default function PositionInput({ value, onChange }: PositionInputProps) {
     }
 
     function handlePaste(e: React.ClipboardEvent<HTMLInputElement>) {
-        e.preventDefault();
+        const raw = e.clipboardData.getData("text");
+        if (!Number.isInteger(Number(raw)) || Number(raw) > 20000 || Number(raw) < 0){
+            e.preventDefault();
+            return;
+        }
     }
 
     return (

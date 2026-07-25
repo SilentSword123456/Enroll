@@ -39,8 +39,8 @@ export default function Onboarding() {
                     >
                         admitere.edu.ro
                     </Link>
-                    : pick your județ, paste the unique code from your school, then copy
-                    the &#34;Poziția în ierarhie&#34; field.
+                    : pick your județ, paste your unique code provided by your school, then copy
+                    the &#34;Poziția în ierarhie&#34; field and paste it above.
                 </p>
 
                 <Link
