@@ -1,13 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import PositionInput from "@/components/PositionInput";
 
 export default function Onboarding() {
     const [position, setPosition] = useState("");
+    const linkRef = useRef<HTMLAnchorElement>(null);
 
     const isValid = position.length > 0;
+
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        if (!isValid) return;
+        linkRef.current?.click();
+    }
 
     return (
         <main className="flex min-h-full flex-1 flex-col items-center justify-center bg-page px-6 py-24 text-center">
@@ -18,7 +25,10 @@ export default function Onboarding() {
                 Enter your position in the Bucharest ranking to see your chances.
             </p>
 
-            <div className="mt-10 w-full max-w-md rounded-3xl bg-white p-8 shadow-lg ring-1 ring-ink/[0.06]">
+            <form
+                onSubmit={handleSubmit}
+                className="mt-10 w-full max-w-md rounded-3xl bg-white p-8 shadow-lg ring-1 ring-ink/[0.06]"
+            >
                 <label
                     htmlFor="position-input"
                     className="block text-sm font-medium text-ink-soft"
@@ -44,6 +54,7 @@ export default function Onboarding() {
                 </p>
 
                 <Link
+                    ref={linkRef}
                     href={isValid ? `/results?pos=${position}` : "#"}
                     aria-disabled={!isValid}
                     onClick={(e) => {
@@ -67,7 +78,7 @@ export default function Onboarding() {
                         />
                     </svg>
                 </Link>
-            </div>
+            </form>
         </main>
     );
 }
