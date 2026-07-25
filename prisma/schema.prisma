@@ -13,6 +13,8 @@ model School {
   slug       String       @unique
   website    String?
   address    String?
+  latitude   Float?
+  longitude  Float?
   admissions Admission[]
 }
 
