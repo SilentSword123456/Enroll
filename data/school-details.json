@@ -1,0 +1,495 @@
+{
+  "colegiul-economic-a-d-xenopol": {
+    "source": "https://www.plusedu.ro/i/colegiul-economic-a-d-xenopol",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-economic-costin-c-kiritescu": {
+    "source": "https://www.plusedu.ro/i/colegiul-economic-costin-c-kiritescu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-economic-hermes": {
+    "source": "https://www.plusedu.ro/i/colegiul-economic-hermes",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-economic-nicolae-kretzulescu": {
+    "source": "https://www.plusedu.ro/i/colegiul-economic-nicolae-kretzulescu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-economic-viilor": {
+    "source": "https://www.plusedu.ro/i/colegiul-economic-viilor",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-economic-virgil-madgearu": {
+    "source": "https://www.plusedu.ro/i/colegiul-economic-virgil-madgearu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-german-goethe": {
+    "source": "https://www.plusedu.ro/i/colegiul-german-goethe",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-aurel-vlaicu": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-aurel-vlaicu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-cantemir-voda": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-cantemir-voda",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-elena-cuza": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-elena-cuza",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-emil-racovita": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-emil-racovita",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-gheorghe-lazar": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-gheorghe-lazar",
+    "checkedAt": "2026-10-17",
+    "admissions": [
+      {
+        "specialization": "Matematică-Informatică",
+        "code": "272",
+        "year": 2026,
+        "source": "https://admitere.edu.ro/Pages/SpecPerLic.aspx?Jud=4&Lic=11554078"
+      },
+      {
+        "specialization": "Ştiinţe ale Naturii",
+        "code": "273",
+        "year": 2026,
+        "source": "https://admitere.edu.ro/Pages/SpecPerLic.aspx?Jud=4&Lic=11554078"
+      },
+      {
+        "specialization": "Filologie",
+        "code": "274",
+        "year": 2026,
+        "source": "https://admitere.edu.ro/Pages/SpecPerLic.aspx?Jud=4&Lic=11554078"
+      },
+      {
+        "specialization": "Ştiinţe Sociale",
+        "code": "275",
+        "year": 2026,
+        "source": "https://admitere.edu.ro/Pages/SpecPerLic.aspx?Jud=4&Lic=11554078"
+      }
+    ]
+  },
+  "colegiul-national-gheorghe-sincai": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-gheorghe-sincai",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-grigore-moisil": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-grigore-moisil",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-i-l-caragiale": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-i-l-caragiale",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-ion-creanga": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-ion-creanga",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-ion-neculce": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-ion-neculce",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-iulia-hasdeu": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-iulia-hasdeu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-matei-basarab": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-matei-basarab",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-mihai-eminescu": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-mihai-eminescu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-mihai-viteazul": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-mihai-viteazul",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-octav-onicescu": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-octav-onicescu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-scoala-centrala": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-scoala-centrala",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-sfantul-sava": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-sfantul-sava",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-spiru-haret": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-spiru-haret",
+    "checkedAt": "2026-10-17",
+    "socialLinks": [
+      {
+        "label": "Facebook",
+        "url": "https://m.facebook.com/cnshbucuresti",
+        "source": "https://bibnat.ro/casidro-biblioteca/biblioteca-colegiului-national-spiru-haret/"
+      }
+    ]
+  },
+  "colegiul-national-tudor-vladimirescu": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-tudor-vladimirescu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-victor-babes": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-victor-babes",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-bilingv-george-cosbuc": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-bilingv-george-cosbuc",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-de-arte-dinu-lipatti": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-de-arte-dinu-lipatti",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-de-informatica-tudor-vianu": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-de-informatica-tudor-vianu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-national-de-muzica-george-enescu": {
+    "source": "https://www.plusedu.ro/i/colegiul-national-de-muzica-george-enescu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-romano-catolic-sfantul-iosif": {
+    "source": "https://www.plusedu.ro/i/colegiul-romano-catolic-sfantul-iosif",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-anghel-saligny": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-anghel-saligny",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-carol-i": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-carol-i",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-dimitrie-leonida": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-dimitrie-leonida",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-dinicu-golescu": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-dinicu-golescu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-edmond-nicolau": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-edmond-nicolau",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-gheorghe-asachi": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-gheorghe-asachi",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-iuliu-maniu": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-iuliu-maniu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-media": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-media",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-mihai-bravu": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-mihai-bravu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-mircea-cel-batran": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-mircea-cel-batran",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-petru-maior": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-petru-maior",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-de-aeronautica-henri-coanda": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-de-aeronautica-henri-coanda",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-de-arhitectura-si-lucrari-publice-ioan-n-socolescu": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-de-arhitectura-si-lucrari-publice-ioan-n-socolescu",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-de-industrie-alimentara-dumitru-motoc": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-de-industrie-alimentara-dumitru-motoc",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-de-posta-si-telecomunicatii-gheorghe-airinei": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-de-posta-si-telecomunicatii-gheorghe-airinei",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-energetic": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-energetic",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnic-feroviar-mihai-i": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnic-feroviar-mihai-i",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnologic-grigore-cerchez": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnologic-grigore-cerchez",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-tehnologic-viaceslav-harnaj": {
+    "source": "https://www.plusedu.ro/i/colegiul-tehnologic-viaceslav-harnaj",
+    "checkedAt": "2026-10-17"
+  },
+  "colegiul-ucecom-spiru-haret": {
+    "source": "https://www.plusedu.ro/i/colegiul-ucecom-spiru-haret",
+    "checkedAt": "2026-10-17"
+  },
+  "complexul-educational-laude-reut": {
+    "source": "https://www.plusedu.ro/i/complexul-educational-laude-reut",
+    "checkedAt": "2026-10-17"
+  },
+  "complexul-scolar-cronos": {
+    "source": "https://www.plusedu.ro/i/complexul-scolar-cronos",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-dimitrie-paciurea": {
+    "source": "https://www.plusedu.ro/i/liceul-dimitrie-paciurea",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-profesia": {
+    "source": "https://www.plusedu.ro/i/liceul-profesia",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-cu-program-sportiv-mircea-eliade": {
+    "source": "https://www.plusedu.ro/i/liceul-cu-program-sportiv-mircea-eliade",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-de-arte-plastice-nicolae-tonitza": {
+    "source": "https://www.plusedu.ro/i/liceul-de-arte-plastice-nicolae-tonitza",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-feg": {
+    "source": "https://www.plusedu.ro/i/liceul-feg",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-greco-catolic-timotei-cipariu": {
+    "source": "https://www.plusedu.ro/i/liceul-greco-catolic-timotei-cipariu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-international-king-george": {
+    "source": "https://www.plusedu.ro/i/liceul-international-king-george",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-international-ioanid": {
+    "source": "https://www.plusedu.ro/i/liceul-international-ioanid",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-pedagogic-anastasia-popescu": {
+    "source": "https://www.plusedu.ro/i/liceul-pedagogic-anastasia-popescu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-romano-finlandez": {
+    "source": "https://www.plusedu.ro/i/liceul-romano-finlandez",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-constantin-brancusi": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-constantin-brancusi",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-dimitrie-gusti": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-dimitrie-gusti",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-dragomir-hurmuzescu": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-dragomir-hurmuzescu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-elie-radu": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-elie-radu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-ion-i-c-bratianu": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-ion-i-c-bratianu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-nikola-tesla": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-nikola-tesla",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-petru-poni": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-petru-poni",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-sf-antim-ivireanu": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-sf-antim-ivireanu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-sfantul-pantelimon": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-sfantul-pantelimon",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-de-metrologie-traian-vuia": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-de-metrologie-traian-vuia",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-special-regina-elisabeta": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-special-regina-elisabeta",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-special-nr-3": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-special-nr-3",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-tehnologic-theodor-pallady": {
+    "source": "https://www.plusedu.ro/i/liceul-tehnologic-theodor-pallady",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teologic-adventist-stefan-demetrescu": {
+    "source": "https://www.plusedu.ro/i/liceul-teologic-adventist-stefan-demetrescu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teologic-baptist-logos": {
+    "source": "https://www.plusedu.ro/i/liceul-teologic-baptist-logos",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teologic-penticostal-emanuel": {
+    "source": "https://www.plusedu.ro/i/liceul-teologic-penticostal-emanuel",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-ady-endre": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-ady-endre",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-alexandru-ioan-cuza": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-alexandru-ioan-cuza",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-alexandru-vlahuta": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-alexandru-vlahuta",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-atlas": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-atlas",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-benjamin-franklin": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-benjamin-franklin",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-c-a-rosetti": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-c-a-rosetti",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-constantin-brancoveanu": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-constantin-brancoveanu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-dante-alighieri": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-dante-alighieri",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-decebal": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-decebal",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-dimitrie-bolintineanu": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-dimitrie-bolintineanu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-eugen-lovinescu": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-eugen-lovinescu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-genesis-college": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-genesis-college",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-george-calinescu": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-george-calinescu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-hyperion": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-hyperion",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-ion-barbu": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-ion-barbu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-jean-monnet": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-jean-monnet",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-lucian-blaga": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-lucian-blaga",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-marin-preda": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-marin-preda",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-mihail-sadoveanu": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-mihail-sadoveanu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-nichita-stanescu": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-nichita-stanescu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-nicolae-iorga": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-nicolae-iorga",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-sfintii-trei-ierarhi": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-sfintii-trei-ierarhi",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-stefan-odobleja": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-stefan-odobleja",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-traian": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-traian",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-victoria": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-victoria",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-bilingv-ita-wegman": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-bilingv-ita-wegman",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-bilingv-miguel-de-cervantes": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-bilingv-miguel-de-cervantes",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-bulgar-hristo-botev": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-bulgar-hristo-botev",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-international-de-informatica-bucuresti": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-international-de-informatica-bucuresti",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-mihai-ionescu": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-mihai-ionescu",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-national": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-national",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-scoala-europeana-bucuresti": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-scoala-europeana-bucuresti",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-scoala-mea": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-scoala-mea",
+    "checkedAt": "2026-10-17"
+  },
+  "liceul-teoretic-waldorf": {
+    "source": "https://www.plusedu.ro/i/liceul-teoretic-waldorf",
+    "checkedAt": "2026-10-17"
+  },
+  "seminarul-teologic-ortodox": {
+    "source": "https://www.plusedu.ro/i/seminarul-teologic-ortodox",
+    "checkedAt": "2026-10-17"
+  }
+}

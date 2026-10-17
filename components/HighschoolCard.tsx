@@ -2,6 +2,7 @@ import { getSchoolCardData } from "@/lib/db/schools";
 import { getProfileTheme } from "@/lib/theme/profile-theme";
 import { getShortProfileLabel } from "@/lib/theme/profile-label";
 import { CardIconLink } from "@/components/CardIconLink";
+import { getSchoolDetails } from "@/lib/school-details";
 import { DistancePin } from "@/components/DistancePin";
 
 interface HighschoolCardProps {
@@ -45,12 +46,9 @@ export default async function HighschoolCard({ schoolId, specializare }: Highsch
                             </svg>
                         </CardIconLink>
                     )}
-                    <CardIconLink href="https://instagram.com" label="Open school Instagram">
-                        <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5">
-                            <rect x="2.5" y="2.5" width="15" height="15" rx="4" stroke="currentColor" strokeWidth="1.5" />
-                            <circle cx="10" cy="10" r="3.5" stroke="currentColor" strokeWidth="1.5" />
-                        </svg>
-                    </CardIconLink>
+                    {getSchoolDetails(school.slug, specializare, new Date().getFullYear()).socialLinks.map(link => (
+                        <CardIconLink key={link.url} href={link.url} label={link.label}>{link.label}</CardIconLink>
+                    ))}
                 </div>
             </div>
         </div>
