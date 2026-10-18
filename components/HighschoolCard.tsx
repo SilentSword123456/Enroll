@@ -36,7 +36,7 @@ export default async function HighschoolCard({ schoolId, specializare }: Highsch
 
                 <div className="flex items-center gap-1.5 border-t border-white/20 pt-2">
                     {school.address && (
-                        <DistancePin schoolId={school.id} address={school.address} />
+                        <DistancePin schoolId={school.id} schoolName={school.name} address={school.address} />
                     )}
                     {school.website && (
                         <CardIconLink href={school.website} label="Open school website">

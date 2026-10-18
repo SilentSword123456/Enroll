@@ -3,6 +3,7 @@ export type AdmissionOption = {
     specialization: string; profile: string; language: string; year: number;
     grade: number | null; address: string | null; website: string | null;
     latitude: number | null; longitude: number | null;
+    lastRank?: number | null;
     detailsUrl?: string | null;
     code: string | null; codeYear: number | null; codeSource: string | null;
     socialLinks: { label: string; url: string }[];
@@ -38,4 +39,14 @@ export function safeUrl(value: string | null | undefined) {
 
 export function exportList(options: AdmissionOption[]) {
     return ['Ordine\tLiceu\tSpecializare\tCod\tAn cod\tSursă cod', ...options.map((o, i) => [i + 1, o.schoolName, o.specialization, o.code ?? 'Indisponibil', o.codeYear ?? '', o.codeSource ?? ''].map(v => String(v).replace(/[\t\r\n]/g, ' ')).join('\t'))].join('\n');
+}
+
+export type ResultSort = 'name' | 'preferences' | 'grade' | 'rank';
+export function sortResults(options: AdmissionOption[], sort: ResultSort, position: number | null) {
+    if (sort === 'preferences') return options;
+    return [...options].sort((a, b) => {
+        if (sort === 'grade') return (b.grade ?? -1) - (a.grade ?? -1) || a.schoolName.localeCompare(b.schoolName, 'ro');
+        if (sort === 'rank' && position !== null) return (a.lastRank == null ? Infinity : Math.abs(a.lastRank - position)) - (b.lastRank == null ? Infinity : Math.abs(b.lastRank - position)) || a.schoolName.localeCompare(b.schoolName, 'ro');
+        return a.schoolName.localeCompare(b.schoolName, 'ro') || a.specialization.localeCompare(b.specialization, 'ro');
+    });
 }

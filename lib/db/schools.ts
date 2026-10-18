@@ -1,3 +1,4 @@
+import { getHistoricalRank } from "@/lib/historical-ranks";
 import { prisma } from "@/lib/prisma";
 
 export async function getAllSchools() {
@@ -40,6 +41,7 @@ export async function getAdmissionOptions() {
         seen.add(key);
         return true;
     }).map(a => ({
+        lastRank: getHistoricalRank(a.school.slug, a.specializare, a.an),
         id: a.id, schoolId: a.schoolId, schoolSlug: a.school.slug, schoolName: a.school.name,
         specialization: a.specializare, ...splitSpecialization(a.specializare), year: a.an,
         grade: a.ultimaMedie === null ? null : Number(a.ultimaMedie),

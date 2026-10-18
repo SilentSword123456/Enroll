@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { rankOptions, splitSpecialization, moveItem, safeUrl, exportList, type AdmissionOption } from '../lib/preferences.ts';
+import { sortResults, rankOptions, splitSpecialization, moveItem, safeUrl, exportList, type AdmissionOption } from '../lib/preferences.ts';
 
 const option = (id: number, profile: string, language: string, schoolName: string): AdmissionOption => ({ id, schoolId: id, schoolSlug: 'school', schoolName, specialization: profile, profile, language, year: 2026, grade: null, address: null, website: null, latitude: null, longitude: null, code: null, codeYear: null, codeSource: null, socialLinks: [] });
 const options = [option(1, 'Real', 'Engleză', 'Z'), option(2, 'Uman', 'Franceză', 'A'), option(3, 'Real', 'Franceză', 'B'), option(4, 'Real', 'Engleză', 'A')];
@@ -29,4 +29,16 @@ test('unsafe links are rejected and missing codes remain missing in exports', ()
     assert.equal(safeUrl('https://example.com'), 'https://example.com/');
     assert.match(exportList([options[0]]), /Indisponibil/);
     assert.ok(exportList([{ ...options[0], code: '001', codeYear: 2026 }]).includes('\t001\t2026'));
+});
+
+
+test('explicit name sorting is independent of filter preference order', () => {
+    const filtered = rankOptions(options, ['Uman', 'Real'], []);
+    assert.deepEqual(sortResults(filtered, 'preferences', null), filtered);
+    assert.deepEqual(sortResults(filtered, 'name', null).map(o => o.schoolName), ['A', 'A', 'B', 'Z']);
+});
+test('rank comparison sorts by distance and keeps unknown benchmarks last', () => {
+    const rows = [{ ...options[0], lastRank: null }, { ...options[1], lastRank: 300 }, { ...options[2], lastRank: 110 }];
+    assert.deepEqual(sortResults(rows, 'rank', 100).map(o => o.id), [3, 2, 1]);
+    assert.equal(rows[0].lastRank, null);
 });

@@ -1,21 +1,22 @@
 "use client";
 
 import { useSchoolDistance } from "@/contexts/DistanceContext";
-import { addressToMapsUrl } from "@/lib/maps";
+import { schoolToMapsUrl } from "@/lib/maps";
 import { CardIconLink } from "@/components/CardIconLink";
 
 interface DistancePinProps {
     schoolId: number;
+    schoolName: string;
     address: string;
 }
 
-export function DistancePin({ schoolId, address }: DistancePinProps) {
+export function DistancePin({ schoolId, schoolName, address }: DistancePinProps) {
     const distance = useSchoolDistance(schoolId);
 
     return (
         <CardIconLink
-            href={addressToMapsUrl(address)}
-            label={`Open directions to ${address}`}
+            href={schoolToMapsUrl(schoolName, address)}
+            label={`Deschide ${schoolName} în Google Maps`}
             text={distance !== null ? `${distance.toFixed(1)}km` : undefined}
         >
             <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5">

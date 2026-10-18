@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useSyncExternalStore } from 'react';
+import { useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { type AdmissionOption, rankOptions, moveItem, exportList, safeUrl } from '@/lib/preferences';
-import { addressToMapsUrl } from '@/lib/maps';
+import dynamic from 'next/dynamic';
+import { getProfileTheme } from '@/lib/theme/profile-theme';
+import { type AdmissionOption, rankOptions, moveItem, exportList, safeUrl, sortResults, type ResultSort } from '@/lib/preferences';
+import { schoolToMapsUrl } from '@/lib/maps';
 import PreferencePicker from '@/components/PreferencePicker';
-import LocationMap from '@/components/LocationMap';
+const SchoolMap = dynamic(() => import('@/components/SchoolMap'), { ssr: false, loading: () => <p className="p-4">Se încarcă harta…</p> });
 
 const STORAGE = 'enroll-choices-v1';
 const button = 'rounded-lg border border-ink/20 px-3 py-2 text-sm hover:bg-accent-soft/30 disabled:opacity-40';
@@ -39,6 +41,7 @@ function Explorer({ options, position }: Props) {
     const [preferences, setPreferences] = useState(() => readPreferences(options));
     const { profiles, languages, saved } = preferences;
     const [query, setQuery] = useState('');
+    const [sort, setSort] = useState<ResultSort>('name');
     const [status, setStatus] = useState('');
     const [storageError, setStorageError] = useState(false);
     function update(patch: Partial<Preferences>) {
@@ -53,7 +56,7 @@ function Explorer({ options, position }: Props) {
     const profileChoices = [...new Set(options.map(o => o.profile))].sort((a, b) => a.localeCompare(b, 'ro'));
     const languageChoices = [...new Set(options.map(o => o.language))].sort((a, b) => a.localeCompare(b, 'ro'));
 
-    const ranked = rankOptions(options, profiles, languages, query);
+    const ranked = useMemo(() => sortResults(rankOptions(options, profiles, languages, query), sort, position), [options, profiles, languages, query, sort, position]);
     const selected = saved.flatMap(id => { const option = options.find(o => o.id === id); return option ? [option] : []; });
     async function copy(value: string) {
         try { await navigator.clipboard.writeText(value); setStatus('Copiat în clipboard.'); }
@@ -68,41 +71,45 @@ function Explorer({ options, position }: Props) {
         <div className="mx-auto max-w-7xl">
             <Link href="/" className="text-sm font-bold text-accent">Enroll</Link>
             <h1 className="mt-3 text-3xl font-bold">Alege liceul. Construiește-ți lista.</h1>
-            <p className="mt-3 max-w-3xl text-ink-soft">Alege profilurile și limbile în ordinea preferată, apoi adaugă specializările în lista ta. Ordinea profilurilor are prioritate față de ordinea limbilor.</p>
-            {position && <p className="mt-2 text-sm">Poziția introdusă: {position}. Datele disponibile nu permit calcularea unei probabilități de admitere din această poziție.</p>}
+            <p className="mt-3 max-w-3xl text-ink-soft">Explorează liceele din București. Filtrează ce te interesează, compară opțiunile și construiește lista în ordinea în care le preferi.</p>
+            {position && <p className="mt-2 text-sm">Poziția ta în ierarhia București 2026: {position}. Mai jos poți compara orientativ cu pozițiile istorice, pentru același județ.</p>}
             <p className="mt-2 text-sm text-ink-soft">Mediile afișate sunt istorice, nu garanții de admitere. Verifică oferta și codurile pentru anul în care aplici.</p>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <PreferencePicker title="Profiluri, în ordinea preferată" choices={profileChoices} selected={profiles} onChange={setProfiles} />
-                <PreferencePicker title="Limbi / opțiuni bilingve, în ordinea preferată" choices={languageChoices} selected={languages} onChange={setLanguages} />
+            <details className="mt-4 rounded-2xl border border-ink/10 bg-white p-4 text-sm"><summary className="cursor-pointer font-semibold">Cum funcționează admiterea și comparația după poziție?</summary><p className="mt-3">Candidații sunt procesați în ordinea mediei de admitere și a criteriilor de departajare. Pentru fiecare candidat se verifică opțiunile în ordinea scrisă și se alege prima opțiune eligibilă cu loc disponibil. Pune în lista ta întâi ce îți dorești mai mult.</p><p className="mt-2">Poziția este județeană / a municipiului București, nu națională. Comparația cu ultimul admis din alt an este orientativă: locurile, preferințele și candidații se schimbă. Un număr mai mic înseamnă o poziție mai bună; diferența nu reprezintă o probabilitate de admitere.</p><p className="mt-2">Clasele bilingve pot necesita probă de limbă sau echivalare. Verifică cerințele și oferta din anul înscrierii.</p><div className="mt-3 flex gap-4"><a className="underline" href="https://legislatie.just.ro/Public/DetaliiDocument/301910" target="_blank" rel="noopener noreferrer">Regulile 2026–2027 ↗</a><a className="underline" href="https://www.plusedu.ro/calculator-admitere" target="_blank" rel="noopener noreferrer">Metoda PlusEdu ↗</a></div></details>
+            <p className="mt-6 text-sm font-medium">Alege oricare dintre profilurile selectate ȘI oricare dintre limbile selectate. Fără selecție într-un grup = toate.</p>
+            <div className="mt-3 grid gap-4 md:grid-cols-2">
+                <PreferencePicker title="1. Ce profiluri te interesează?" choices={profileChoices} selected={profiles} onChange={setProfiles} />
+                <PreferencePicker title="2. Ce variante de limbă vrei să vezi?" choices={languageChoices} selected={languages} onChange={setLanguages} />
             </div>
             <p className="mt-2 text-xs text-ink-soft">Etichetele de limbă provin din datele istorice; verifică separat dacă o clasă este bilingvă, intensivă sau cu predare în altă limbă.</p>
-            <div className="mt-6"><LocationMap /></div>
+            <div className="mt-6"><SchoolMap options={ranked} /></div>
             <p role="status" aria-live="polite" className="sticky top-0 z-10 min-h-8 rounded-lg bg-page py-2 text-sm font-medium">{status}</p>
             <p role="alert" className="text-sm text-oxblood">{storageError ? 'Salvarea nu este disponibilă: descarcă lista înainte de a închide pagina.' : ''}</p>
             <div className="mt-4 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
                 <section aria-label="Specializări disponibile">
                     <label htmlFor="school-search" className="font-medium">Caută liceu sau specializare</label>
                     <input id="school-search" value={query} onChange={e => setQuery(e.target.value)} className="mt-2 w-full rounded-xl border border-ink/20 bg-white p-3" placeholder="Numele liceului…" />
-                    <div className="my-4 flex items-center justify-between"><p>{ranked.length} specializări</p><button className={button} onClick={() => { update({ profiles: [], languages: [] }); setQuery(''); }}>Resetează filtrele</button></div>
+                    <div className="my-4 flex flex-wrap items-center justify-between gap-3"><p>{ranked.length} specializări</p><label className="text-sm">Sortează după <select value={sort} onChange={e => setSort(e.target.value as ResultSort)} className="rounded-lg border border-ink/20 bg-white p-2"><option value="name">Numele liceului</option><option value="preferences">Preferințele mele</option><option value="grade">Ultima medie (descrescător)</option><option value="rank" disabled={!position}>Poziție istorică apropiată de a mea</option></select></label><button className={button} onClick={() => { update({ profiles: [], languages: [] }); setQuery(''); }}>Resetează filtrele</button></div>
                     {!ranked.length && <p className="rounded-xl bg-white p-6">Nicio specializare nu corespunde filtrelor. Încearcă alte profiluri sau limbi.</p>}
                     <div className="grid gap-4 sm:grid-cols-2">
                         {ranked.map(o => {
                             const website = safeUrl(o.website);
-                            const maps = o.latitude !== null && o.longitude !== null ? addressToMapsUrl(`${o.latitude},${o.longitude}`) : addressToMapsUrl(o.address || `${o.schoolName}, București`);
-                            return <article key={o.id} className="flex flex-col rounded-2xl border border-ink/10 bg-white p-5 shadow-sm">
+                            const maps = schoolToMapsUrl(o.schoolName, o.address);
+                            const theme = getProfileTheme(o.specialization);
+                            return <article key={o.id} className="flex flex-col rounded-2xl p-4 text-white shadow-md ring-1 ring-black/5" style={{ backgroundImage: `linear-gradient(to top right, ${theme.accent}, #6b7280)` }}>
                                 <h2 className="text-lg font-bold"><button className="text-left underline-offset-4 hover:underline" title="Copiază numele liceului" aria-label={`Copiază numele: ${o.schoolName}`} onClick={() => copy(o.schoolName)}>{o.schoolName}</button></h2>
-                                <p className="mt-2 font-medium text-accent-deep">{o.specialization}</p>
+                                <p className="mt-2 font-semibold text-white">{o.specialization}</p>
                                 <p className="mt-2 text-sm">Ultima medie ({o.year}): <strong>{o.grade?.toFixed(2) ?? 'Indisponibilă'}</strong></p>
+                                {o.lastRank != null && <p className="mt-2 text-sm">Poziția ultimului admis ({o.year}): <strong>{o.lastRank}</strong>{position !== null && <span className="block text-xs text-white/85">{position === o.lastRank ? 'Aceeași poziție numerică.' : position < o.lastRank ? `Tu: cu ${o.lastRank - position} poziții înainte.` : `Tu: cu ${position - o.lastRank} poziții după.`} Comparație între ani, fără garanție.</span>}</p>}
                                 <p className="mt-1 text-sm">Cod admitere: {o.code ? <button className="underline" onClick={() => copy(o.code!)}>{o.code} ({o.codeYear})</button> : 'indisponibil'}</p>
                                 {o.codeSource && <a className="text-xs underline" href={o.codeSource} target="_blank" rel="noopener noreferrer">Sursa codului ↗</a>}
-                                {o.address && <p className="mt-3 text-sm text-ink-soft">{o.address}</p>}
-                                <div className="mt-3 flex flex-wrap gap-3 text-sm text-accent-deep">
+                                {o.address && <p className="mt-3 text-sm text-white/85">{o.address}</p>}
+                                <div className="mt-3 flex flex-wrap gap-3 border-t border-white/20 pt-3 text-sm text-white">
                                     <a href={maps} target="_blank" rel="noopener noreferrer" className="underline">Deschide în Maps ↗</a>
                                     {website && <a href={website} target="_blank" rel="noopener noreferrer" className="underline">Site liceu ↗</a>}
                                     {o.detailsUrl && <a href={o.detailsUrl} target="_blank" rel="noopener noreferrer" className="underline">Detalii PlusEdu ↗</a>}
                                     {o.socialLinks.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="underline">{link.label} ↗</a>)}
                                 </div>
-                                <button disabled={saved.includes(o.id)} onClick={() => { setSaved(old => old.includes(o.id) ? old : [...old, o.id]); setStatus('Specializarea a fost adăugată în lista ta.'); }} className="mt-4 rounded-xl bg-ink px-4 py-2 text-sm text-white disabled:opacity-40">{saved.includes(o.id) ? 'În lista mea' : 'Adaugă în lista mea'}</button>
+                                <button disabled={saved.includes(o.id)} onClick={() => { setSaved(old => old.includes(o.id) ? old : [...old, o.id]); setStatus('Specializarea a fost adăugată în lista ta.'); }} className="mt-4 rounded-xl bg-white/15 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/30 hover:bg-white/25 disabled:opacity-50">{saved.includes(o.id) ? 'În lista mea' : 'Adaugă în lista mea'}</button>
                             </article>;
                         })}
                     </div>
@@ -110,7 +117,7 @@ function Explorer({ options, position }: Props) {
                 <aside className="rounded-2xl border border-ink/10 bg-white p-5" aria-label="Lista mea">
                     <h2 className="text-xl font-bold">Lista mea · {selected.length}</h2>
                     <p className="mt-2 text-sm text-ink-soft">Pune opțiunile în ordinea în care le preferi. Lista se salvează pe acest dispozitiv; nu este o înscriere oficială.</p>
-                    <button disabled={!ranked.length} className={`${button} mt-4`} onClick={() => { setSaved(old => [...new Set([...old, ...ranked.map(o => o.id)])]); setStatus('Rezultatele au fost adăugate în ordinea preferințelor. Poți reordona lista.'); }}>Adaugă rezultatele în ordinea preferințelor</button>
+                    <button disabled={!ranked.length} className={`${button} mt-4`} onClick={() => { setSaved(old => [...new Set([...old, ...ranked.map(o => o.id)])]); setStatus('Rezultatele au fost adăugate în ordinea afișată. Poți reordona lista.'); }}>Adaugă rezultatele în ordinea afișată</button>
                     {!selected.length && <p className="my-6 text-sm">Adaugă specializări din rezultate pentru a începe.</p>}
                     <ol className="mt-4 space-y-4">
                         {selected.map((o, i) => <li key={o.id} className="border-t border-ink/10 pt-3">
@@ -126,7 +133,7 @@ function Explorer({ options, position }: Props) {
                     <a className="mt-4 block text-sm underline" href="https://admitere.edu.ro/" target="_blank" rel="noopener noreferrer">Verifică oferta oficială și codurile ↗</a>
                 </aside>
             </div>
-            <footer className="mt-10 border-t border-ink/10 pt-5 text-sm text-ink-soft">Date istorice din baza Enroll (bacplus.ro). Coordonate completate și informații suplimentare: <a className="underline" href="https://www.plusedu.ro/" target="_blank" rel="noopener noreferrer">PlusEdu</a>. Codurile verificate indică sursa și anul.</footer>
+            <footer className="mt-10 border-t border-ink/10 pt-5 text-sm text-ink-soft">Date istorice din baza Enroll (bacplus.ro). Poziții istorice, coordonate completate și informații suplimentare: <a className="underline" href="https://www.plusedu.ro/" target="_blank" rel="noopener noreferrer">PlusEdu</a>. Codurile verificate indică sursa și anul.</footer>
         </div>
     </main>;
 }
