@@ -90,26 +90,33 @@ function Explorer({ options, position }: Props) {
                     <input id="school-search" value={query} onChange={e => setQuery(e.target.value)} className="mt-2 w-full rounded-xl border border-ink/20 bg-white p-3" placeholder="Numele liceului…" />
                     <div className="my-4 flex flex-wrap items-center justify-between gap-3"><p>{ranked.length} specializări</p><label className="text-sm">Sortează după <select value={sort} onChange={e => setSort(e.target.value as ResultSort)} className="rounded-lg border border-ink/20 bg-white p-2"><option value="name">Numele liceului</option><option value="preferences">Preferințele mele</option><option value="grade">Ultima medie (descrescător)</option><option value="rank" disabled={!position}>Poziție istorică apropiată de a mea</option></select></label><button className={button} onClick={() => { update({ profiles: [], languages: [] }); setQuery(''); }}>Resetează filtrele</button></div>
                     {!ranked.length && <p className="rounded-xl bg-white p-6">Nicio specializare nu corespunde filtrelor. Încearcă alte profiluri sau limbi.</p>}
-                    <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="grid items-start gap-2 sm:grid-cols-2 xl:grid-cols-3">
                         {ranked.map(o => {
                             const website = safeUrl(o.website);
                             const maps = schoolToMapsUrl(o.schoolName, o.address);
                             const theme = getProfileTheme(o.specialization);
-                            return <article key={o.id} className="flex flex-col rounded-2xl p-4 text-white shadow-md ring-1 ring-black/5" style={{ backgroundImage: `linear-gradient(to top right, ${theme.accent}, #6b7280)` }}>
-                                <h2 className="text-lg font-bold"><button className="text-left underline-offset-4 hover:underline" title="Copiază numele liceului" aria-label={`Copiază numele: ${o.schoolName}`} onClick={() => copy(o.schoolName)}>{o.schoolName}</button></h2>
-                                <p className="mt-2 font-semibold text-white">{o.specialization}</p>
-                                <p className="mt-2 text-sm">Ultima medie ({o.year}): <strong>{o.grade?.toFixed(2) ?? 'Indisponibilă'}</strong></p>
-                                {o.lastRank != null && <p className="mt-2 text-sm">Poziția ultimului admis ({o.year}): <strong>{o.lastRank}</strong>{position !== null && <span className="block text-xs text-white/85">{position === o.lastRank ? 'Aceeași poziție numerică.' : position < o.lastRank ? `Tu: cu ${o.lastRank - position} poziții înainte.` : `Tu: cu ${position - o.lastRank} poziții după.`} Comparație între ani, fără garanție.</span>}</p>}
-                                <p className="mt-1 text-sm">Cod admitere: {o.code ? <button className="underline" onClick={() => copy(o.code!)}>{o.code} ({o.codeYear})</button> : 'indisponibil'}</p>
-                                {o.codeSource && <a className="text-xs underline" href={o.codeSource} target="_blank" rel="noopener noreferrer">Sursa codului ↗</a>}
-                                {o.address && <p className="mt-3 text-sm text-white/85">{o.address}</p>}
-                                <div className="mt-3 flex flex-wrap gap-3 border-t border-white/20 pt-3 text-sm text-white">
-                                    <a href={maps} target="_blank" rel="noopener noreferrer" className="underline">Deschide în Maps ↗</a>
-                                    {website && <a href={website} target="_blank" rel="noopener noreferrer" className="underline">Site liceu ↗</a>}
-                                    {o.detailsUrl && <a href={o.detailsUrl} target="_blank" rel="noopener noreferrer" className="underline">Detalii PlusEdu ↗</a>}
-                                    {o.socialLinks.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="underline">{link.label} ↗</a>)}
-                                </div>
-                                <button disabled={saved.includes(o.id)} onClick={() => { setSaved(old => old.includes(o.id) ? old : [...old, o.id]); setStatus('Specializarea a fost adăugată în lista ta.'); }} className="mt-4 rounded-xl bg-white/15 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/30 hover:bg-white/25 disabled:opacity-50">{saved.includes(o.id) ? 'În lista mea' : 'Adaugă în lista mea'}</button>
+                            return <article key={o.id} className="relative min-w-0 rounded-xl text-white shadow-sm ring-1 ring-black/5" style={{ backgroundImage: `linear-gradient(to top right, ${theme.accent}, #6b7280)` }}>
+                                <details className="group">
+                                    <summary className="cursor-pointer list-none rounded-xl p-3 pr-12 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden">
+                                        <h2 className="text-sm font-bold leading-snug">{o.schoolName}</h2>
+                                        <p className="mt-1 text-xs leading-snug text-white/90">{o.specialization}</p>
+                                        <div className="mt-2 flex flex-wrap items-center gap-x-2 text-xs"><span>Medie {o.year}: <strong>{o.grade?.toFixed(2) ?? '—'}</strong></span><span className="text-white/80 group-open:hidden">Detalii ▾</span><span className="hidden text-white/80 group-open:inline">Închide ▴</span></div>
+                                    </summary>
+                                    <div className="space-y-2 border-t border-white/20 p-3 text-xs">
+                                        <button className="underline" onClick={() => copy(o.schoolName)} aria-label={`Copiază numele: ${o.schoolName}`}>Copiază numele liceului</button>
+                                        {o.lastRank != null && <p>Poziția ultimului admis ({o.year}): <strong>{o.lastRank}</strong>{position !== null && <span className="mt-1 block text-white/85">{position === o.lastRank ? 'Aceeași poziție numerică.' : position < o.lastRank ? `Tu: cu ${o.lastRank - position} poziții înainte.` : `Tu: cu ${position - o.lastRank} poziții după.`} Comparație între ani, fără garanție.</span>}</p>}
+                                        <p>Cod admitere: {o.code ? <button className="underline" onClick={() => copy(o.code!)}>{o.code} ({o.codeYear})</button> : 'indisponibil'}</p>
+                                        {o.codeSource && <a className="block underline" href={o.codeSource} target="_blank" rel="noopener noreferrer">Sursa codului ↗</a>}
+                                        {o.address && <p className="text-white/85">{o.address}</p>}
+                                        <div className="flex flex-wrap gap-x-3 gap-y-2 border-t border-white/20 pt-2">
+                                            <a href={maps} target="_blank" rel="noopener noreferrer" className="underline">Deschide în Maps ↗</a>
+                                            {website && <a href={website} target="_blank" rel="noopener noreferrer" className="underline">Site liceu ↗</a>}
+                                            {o.detailsUrl && <a href={o.detailsUrl} target="_blank" rel="noopener noreferrer" className="underline">Detalii PlusEdu ↗</a>}
+                                            {o.socialLinks.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="underline">{link.label} ↗</a>)}
+                                        </div>
+                                    </div>
+                                </details>
+                                <button disabled={saved.includes(o.id)} aria-label={`${saved.includes(o.id) ? 'În lista mea' : 'Adaugă în lista mea'}: ${o.schoolName}, ${o.specialization}`} title={saved.includes(o.id) ? 'În lista mea' : 'Adaugă în lista mea'} onClick={() => { setSaved(old => old.includes(o.id) ? old : [...old, o.id]); setStatus('Specializarea a fost adăugată în lista ta.'); }} className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center rounded-lg text-xl hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white disabled:opacity-60">{saved.includes(o.id) ? '✓' : '+'}</button>
                             </article>;
                         })}
                     </div>
