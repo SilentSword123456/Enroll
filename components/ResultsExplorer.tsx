@@ -1,13 +1,15 @@
 'use client';
 
-import { useMemo, useState, useSyncExternalStore } from 'react';
+import { useDeferredValue, useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { getProfileTheme } from '@/lib/theme/profile-theme';
 import { type AdmissionOption, rankOptions, moveItem, exportList, safeUrl, sortResults, type ResultSort } from '@/lib/preferences';
 import { schoolToMapsUrl } from '@/lib/maps';
+import ResultsSkeleton, { MapSkeleton } from '@/components/ResultsSkeleton';
+import SchoolIcon from '@/components/SchoolIcon';
 import PreferencePicker from '@/components/PreferencePicker';
-const SchoolMap = dynamic(() => import('@/components/SchoolMap'), { ssr: false, loading: () => <p className="p-4">Se încarcă harta…</p> });
+const SchoolMap = dynamic(() => import('@/components/SchoolMap'), { ssr: false, loading: () => <MapSkeleton /> });
 
 const STORAGE = 'enroll-choices-v1';
 const button = 'rounded-lg border border-ink/20 px-3 py-2 text-sm hover:bg-accent-soft/30 disabled:opacity-40';
@@ -18,7 +20,7 @@ const subscribe = () => () => {};
 
 export default function ResultsExplorer(props: Props) {
     const mounted = useSyncExternalStore(subscribe, () => true, () => false);
-    return mounted ? <Explorer {...props} /> : <main className="p-8 text-ink" role="status">Se încarcă opțiunile…</main>;
+    return mounted ? <Explorer {...props} /> : <ResultsSkeleton />;
 }
 
 function readPreferences(options: AdmissionOption[]): Preferences {
@@ -41,6 +43,7 @@ function Explorer({ options, position }: Props) {
     const [preferences, setPreferences] = useState(() => readPreferences(options));
     const { profiles, languages, saved } = preferences;
     const [query, setQuery] = useState('');
+    const deferredQuery = useDeferredValue(query);
     const [sort, setSort] = useState<ResultSort>('name');
     const [status, setStatus] = useState('');
     const [storageError, setStorageError] = useState(false);
@@ -56,7 +59,7 @@ function Explorer({ options, position }: Props) {
     const profileChoices = [...new Set(options.map(o => o.profile))].sort((a, b) => a.localeCompare(b, 'ro'));
     const languageChoices = [...new Set(options.map(o => o.language))].sort((a, b) => a.localeCompare(b, 'ro'));
 
-    const ranked = useMemo(() => sortResults(rankOptions(options, profiles, languages, query), sort, position), [options, profiles, languages, query, sort, position]);
+    const ranked = useMemo(() => sortResults(rankOptions(options, profiles, languages, deferredQuery), sort, position), [options, profiles, languages, deferredQuery, sort, position]);
     const selected = saved.flatMap(id => { const option = options.find(o => o.id === id); return option ? [option] : []; });
     async function copy(value: string) {
         try { await navigator.clipboard.writeText(value); setStatus('Copiat în clipboard.'); }
@@ -85,7 +88,7 @@ function Explorer({ options, position }: Props) {
             <p role="status" aria-live="polite" className="sticky top-0 z-10 min-h-8 rounded-lg bg-page py-2 text-sm font-medium">{status}</p>
             <p role="alert" className="text-sm text-oxblood">{storageError ? 'Salvarea nu este disponibilă: descarcă lista înainte de a închide pagina.' : ''}</p>
             <div className="mt-4 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-                <section aria-label="Specializări disponibile">
+                <section aria-label="Specializări disponibile" aria-busy={query !== deferredQuery}>
                     <label htmlFor="school-search" className="font-medium">Caută liceu sau specializare</label>
                     <input id="school-search" value={query} onChange={e => setQuery(e.target.value)} className="mt-2 w-full rounded-xl border border-ink/20 bg-white p-3" placeholder="Numele liceului…" />
                     <div className="my-4 flex flex-wrap items-center justify-between gap-3"><p>{ranked.length} specializări</p><label className="text-sm">Sortează după <select value={sort} onChange={e => setSort(e.target.value as ResultSort)} className="rounded-lg border border-ink/20 bg-white p-2"><option value="name">Numele liceului</option><option value="preferences">Preferințele mele</option><option value="grade">Ultima medie (descrescător)</option><option value="rank" disabled={!position}>Poziție istorică apropiată de a mea</option></select></label><button className={button} onClick={() => { update({ profiles: [], languages: [] }); setQuery(''); }}>Resetează filtrele</button></div>
@@ -95,12 +98,12 @@ function Explorer({ options, position }: Props) {
                             const website = safeUrl(o.website);
                             const maps = schoolToMapsUrl(o.schoolName, o.address);
                             const theme = getProfileTheme(o.specialization);
-                            return <article key={o.id} className="relative min-w-0 rounded-xl text-white shadow-sm ring-1 ring-black/5" style={{ backgroundImage: `linear-gradient(to top right, ${theme.accent}, #6b7280)` }}>
+                            return <article key={o.id} className="relative min-w-0 rounded-2xl text-white shadow-sm ring-1 ring-black/5 transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-accent" style={{ backgroundImage: `linear-gradient(to top right, ${theme.accent}, #6b7280)` }}>
                                 <details className="group">
                                     <summary className="cursor-pointer list-none rounded-xl p-3 pr-12 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden">
                                         <h2 className="text-sm font-bold leading-snug">{o.schoolName}</h2>
                                         <p className="mt-1 text-xs leading-snug text-white/90">{o.specialization}</p>
-                                        <div className="mt-2 flex flex-wrap items-center gap-x-2 text-xs"><span>Medie {o.year}: <strong>{o.grade?.toFixed(2) ?? '—'}</strong></span><span className="text-white/80 group-open:hidden">Detalii ▾</span><span className="hidden text-white/80 group-open:inline">Închide ▴</span></div>
+                                        <div className="mt-2 flex flex-wrap items-center gap-x-2 text-xs"><span className="inline-flex items-center gap-1"><SchoolIcon name="grade" />Medie {o.year}: <strong>{o.grade?.toFixed(2) ?? '—'}</strong></span><span className="text-white/80 group-open:hidden"><span className="inline-flex items-center gap-1">Detalii <SchoolIcon name="chevron" /></span></span><span className="hidden text-white/80 group-open:inline">Închide ▴</span></div>
                                     </summary>
                                     <div className="space-y-2 border-t border-white/20 p-3 text-xs">
                                         <button className="underline" onClick={() => copy(o.schoolName)} aria-label={`Copiază numele: ${o.schoolName}`}>Copiază numele liceului</button>
@@ -109,13 +112,15 @@ function Explorer({ options, position }: Props) {
                                         {o.codeSource && <a className="block underline" href={o.codeSource} target="_blank" rel="noopener noreferrer">Sursa codului ↗</a>}
                                         {o.address && <p className="text-white/85">{o.address}</p>}
                                         <div className="flex flex-wrap gap-x-3 gap-y-2 border-t border-white/20 pt-2">
-                                            <a href={maps} target="_blank" rel="noopener noreferrer" className="underline">Deschide în Maps ↗</a>
-                                            {website && <a href={website} target="_blank" rel="noopener noreferrer" className="underline">Site liceu ↗</a>}
                                             {o.detailsUrl && <a href={o.detailsUrl} target="_blank" rel="noopener noreferrer" className="underline">Detalii PlusEdu ↗</a>}
-                                            {o.socialLinks.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="underline">{link.label} ↗</a>)}
                                         </div>
                                     </div>
                                 </details>
+                                <div className="mx-3 mb-2 flex flex-wrap items-center gap-1.5 border-t border-white/20 pt-2 text-[11px] font-medium">
+                                    <a href={maps} target="_blank" rel="noopener noreferrer" aria-label={`Google Maps: ${o.schoolName}`} className="inline-flex min-h-8 items-center gap-1 rounded-full bg-white/15 px-2.5 transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white"><SchoolIcon name="pin" />Maps</a>
+                                    {website && <a href={website} target="_blank" rel="noopener noreferrer" aria-label={`Site oficial: ${o.schoolName}`} className="inline-flex min-h-8 items-center gap-1 rounded-full bg-white/15 px-2.5 transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white"><SchoolIcon name="globe" />Site</a>}
+                                    {o.socialLinks.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={`${link.label}: ${o.schoolName}`} className="inline-flex min-h-8 items-center gap-1 rounded-full bg-white/15 px-2.5 transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-white"><SchoolIcon name="social" />{link.label}</a>)}
+                                </div>
                                 <button disabled={saved.includes(o.id)} aria-label={`${saved.includes(o.id) ? 'În lista mea' : 'Adaugă în lista mea'}: ${o.schoolName}, ${o.specialization}`} title={saved.includes(o.id) ? 'În lista mea' : 'Adaugă în lista mea'} onClick={() => { setSaved(old => old.includes(o.id) ? old : [...old, o.id]); setStatus('Specializarea a fost adăugată în lista ta.'); }} className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center rounded-lg text-xl hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white disabled:opacity-60">{saved.includes(o.id) ? '✓' : '+'}</button>
                             </article>;
                         })}
