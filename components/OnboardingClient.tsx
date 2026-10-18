@@ -1,18 +1,13 @@
 "use client";
 
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import Link from "next/link";
 import PositionInput from "@/components/PositionInput";
-import { computeAndCacheDistances, type SchoolCoord } from "@/lib/distanceCache";
 
-export default function OnboardingClient({ schools }: { schools: SchoolCoord[] }) {
+export default function OnboardingClient() {
     const [position, setPosition] = useState("");
-    const isValid = position.length > 0;
+    const isValid = position.length > 0 && Number(position) > 0;
     const linkRef = useRef<HTMLAnchorElement>(null);
-
-    useEffect(() => {
-        computeAndCacheDistances(schools);
-    }, [schools]);
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
